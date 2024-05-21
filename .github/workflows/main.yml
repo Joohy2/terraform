@@ -19,21 +19,24 @@ jobs:
         node-version: '14'
 
     - name: 의존성 설치
-      working-directory: ./terraform
-      run: npm install
+      run: |
+        cd terraform
+        npm install
 
     - name: 테스트 실행
-      working-directory: ./terraform
-      run: npm test
+      run: |
+        cd terraform
+        npm test
 
     - name: 프로젝트 빌드
-      working-directory: ./terraform
-      run: npm run build
+      run: |
+        cd terraform
+        npm run build
 
     - name: 프로젝트 압축
       run: |
         cd terraform
-        zip -r my-project.zip .
+        zip -r ../my-project.zip .
 
     - name: S3에 업로드
       env:
@@ -41,7 +44,7 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         AWS_REGION: ${{ secrets.AWS_REGION }}
       run: |
-        aws s3 cp terraform/my-project.zip s3://cicd-joo-terraform/my-project.zip
+        aws s3 cp my-project.zip s3://cicd-joo-terraform/my-project.zip
 
     - name: CodeDeploy로 배포
       env:
