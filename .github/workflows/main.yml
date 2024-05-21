@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 env:
-  S3_BUCKET_NAME: 
+  S3_BUCKET_NAME: cicd-joo-terraform
   AWS_REGION: ap-southeast-1
   CODEDEPLOY_NAME: joo-deploy-cicd
 
