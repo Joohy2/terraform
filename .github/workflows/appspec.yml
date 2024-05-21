@@ -1,0 +1,22 @@
+version: 0.0
+os: linux
+# 파일의 source경로를 명확히 지정하고 EC2 내의 경로를 입력한다.
+files:
+  - source: /path/to/your/source  # 수정할 소스 경로
+    destination: /home/ubuntu/app/42Partner-Backend  # 'ec2-user'를 'ubuntu'로 변경
+    overwrite: yes
+# 파일 중복 시 'OVERWRITE' 설정으로 파일을 덮어쓴다.
+file_exists_behavior: OVERWRITE
+
+permissions:
+  - object: /home/ubuntu/app/42Partner-Backend  # 경로 수정
+    pattern: "**"
+    owner: ubuntu 
+    group: ubuntu 
+
+hooks:
+  ApplicationStart:
+    # 배포 스크립트로 지정된 스크립트를 활용한다.
+    - location: scripts/gh_deploy.sh
+      timeout: 60
+      runas: root
