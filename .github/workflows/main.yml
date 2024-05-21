@@ -13,30 +13,30 @@ jobs:
     - name: 코드 체크아웃
       uses: actions/checkout@v2
 
-    - name: 작업 디렉토리 설정
-      run: cd terraform
-
     - name: Node.js 설정
       uses: actions/setup-node@v2
       with:
         node-version: '14'
-      working-directory: ./terraform
 
     - name: 의존성 설치
-      run: npm install
-      working-directory: ./terraform
+      run: |
+        cd terraform
+        npm install
 
     - name: 테스트 실행
-      run: npm test
-      working-directory: ./terraform
+      run: |
+        cd terraform
+        npm test
 
     - name: 프로젝트 빌드
-      run: npm run build
-      working-directory: ./terraform
+      run: |
+        cd terraform
+        npm run build
 
     - name: 프로젝트 압축
-      run: zip -r my-project.zip .
-      working-directory: ./terraform
+      run: |
+        cd terraform
+        zip -r my-project.zip .
 
     - name: S3에 업로드
       env:
