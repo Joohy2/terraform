@@ -1,11 +1,9 @@
 name: CI-CD
 
-# 어떤 브랜치에 push 시 github action CI를 동작시킬지
 on:
   push:
     branches: main
 
-# 환경 변수 설정
 env:
   S3_BUCKET_NAME: cicd-joo-terraform
   CODE_DEPLOY_APPLICATION_NAME: joo-deploy-cicd
@@ -13,7 +11,6 @@ env:
 
 jobs:
   build:
-    # 실행 환경 이미지
     runs-on: ubuntu-latest
     
     steps:
@@ -24,6 +21,9 @@ jobs:
         uses: actions/setup-java@v1
         with: 
           java-version: 11
+
+      - name: Verify gradlew file existence
+        run: ls -al ./module-api/gradlew
 
       - name: Grant execute permission for gradlew
         run: chmod +x ./module-api/gradlew
