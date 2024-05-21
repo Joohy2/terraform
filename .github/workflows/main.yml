@@ -11,8 +11,6 @@ on:
 env:
   S3_BUCKET_NAME: cicd-joo-was
   AWS_REGION: ap-southeast-1
-  CODEDEPLOY_NAME: joo-terr-was
-  CODEDEPLOY_GROUP: joo-terr-was
 
 jobs:
   build:
@@ -49,6 +47,3 @@ jobs:
       
       - name: Upload to S3
         run: aws s3 cp --region ${{ env.AWS_REGION }} ./$GITHUB_SHA.zip s3://$S3_BUCKET_NAME/$GITHUB_SHA.zip
-
-      - name: Code Deploy
-        run: aws deploy create-deployment --application-name $CODEDEPLOY_NAME --deployment-config-name CodeDeployDefault.AllAtOnce --deployment-group-name $CODEDEPLOY_GROUP --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=$GITHUB_SHA.zip
