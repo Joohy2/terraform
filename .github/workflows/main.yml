@@ -13,22 +13,30 @@ jobs:
     - name: 코드 체크아웃
       uses: actions/checkout@v2
 
+    - name: 작업 디렉토리 설정
+      run: cd terraform
+
     - name: Node.js 설정
       uses: actions/setup-node@v2
       with:
         node-version: '14'
+      working-directory: ./terraform
 
     - name: 의존성 설치
       run: npm install
+      working-directory: ./terraform
 
     - name: 테스트 실행
       run: npm test
+      working-directory: ./terraform
 
     - name: 프로젝트 빌드
       run: npm run build
+      working-directory: ./terraform
 
     - name: 프로젝트 압축
       run: zip -r my-project.zip .
+      working-directory: ./terraform
 
     - name: S3에 업로드
       env:
@@ -36,7 +44,7 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         AWS_REGION: ${{ secrets.AWS_REGION }}
       run: |
-        aws s3 cp my-project.zip s3://cicd-joo-terraform/my-project.zip
+        aws s3 cp terraform/my-project.zip s3://cicd-joo-terraform/my-project.zip
 
     - name: CodeDeploy로 배포
       env:
