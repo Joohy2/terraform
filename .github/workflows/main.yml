@@ -10,7 +10,6 @@ on:
 env:
   CONTEXT: main
   S3_BUCKET_NAME: cicd-joo-terraform
-  RESOURCE_PATH: ./module-api/src/main/resources/application.yml
   CODE_DEPLOY_APPLICATION_NAME: joo-deploy-cicd
   CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: joo-deploy-group
 # push 시 수행할 일들 정의
