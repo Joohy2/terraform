@@ -8,7 +8,7 @@ on:
 # 환경 변수 설정
 # 생성한 Code Deploy와 S3의 이름을 설정한다.
 env:
-	CONTEXT: dev
+  CONTEXT: main
   S3_BUCKET_NAME: cicd-joo-terraform
   RESOURCE_PATH: ./module-api/src/main/resources/application.yml
   CODE_DEPLOY_APPLICATION_NAME: joo-deploy-cicd
