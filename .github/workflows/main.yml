@@ -19,19 +19,16 @@ jobs:
         node-version: '14'
 
     - name: 의존성 설치
-      run: |
-        cd terraform
-        npm install
+      working-directory: ./terraform
+      run: npm install
 
     - name: 테스트 실행
-      run: |
-        cd terraform
-        npm test
+      working-directory: ./terraform
+      run: npm test
 
     - name: 프로젝트 빌드
-      run: |
-        cd terraform
-        npm run build
+      working-directory: ./terraform
+      run: npm run build
 
     - name: 프로젝트 압축
       run: |
