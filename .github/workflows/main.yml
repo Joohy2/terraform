@@ -11,35 +11,37 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v4  # Node.js 20 사용 버전
 
     - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v3
+      uses: aws-actions/configure-aws-credentials@v3  # Node.js 20 사용 버전
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ap-southeast-1
+        aws-region: ap-southeast-1  # 리전을 ap-southeast-1로 변경
 
     - name: Set environment variables
-      run: echo "S3_BUCKET_NAME=cicd-joo-terraform" >> $GITHUB_ENV
+      run: echo "S3_BUCKET_NAME=cicd-joo-terraform" >> $GITHUB_ENV  # S3 버킷 이름을 cicd-joo-terraform으로 변경
+
+    - name: Grant execute permissions for deploy script
+      run: chmod +x .github/workflows/deploy.sh  # 스크립트 파일 경로 수정
 
     - name: Zip project files
-      run: zip -r $GITHUB_SHA.zip ./*
+      run: |
+        zip -r $GITHUB_SHA.zip ./*
       shell: bash
 
     - name: Upload to S3
       env:
-        S3_BUCKET_NAME: cicd-joo-terraform
-      run: aws s3 cp --region ap-southeast-1 ./$GITHUB_SHA.zip s3://$S3_BUCKET_NAME/$GITHUB_SHA.zip
-
-    - name: Grant execute permissions for deploy script
-      run: chmod +x .github/workflows/deploy.sh
+        S3_BUCKET_NAME: cicd-joo-terraform  # S3 버킷 이름 설정 변경
+      run: |
+        aws s3 cp --region ap-southeast-1 ./$GITHUB_SHA.zip s3://$S3_BUCKET_NAME/$GITHUB_SHA.zip  # 리전 변경 반영
 
     - name: Deploy to CodeDeploy
       env:
-        S3_BUCKET_NAME: cicd-joo-terraform
-        run: |
-         aws deploy create-deployment \
+        S3_BUCKET_NAME: cicd-joo-terraform  # S3 버킷 이름 설정 변경
+      run: |
+        aws deploy create-deployment \
           --application-name codedeploy \
           --deployment-group-name deploygroup \
           --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=$GITHUB_SHA.zip
