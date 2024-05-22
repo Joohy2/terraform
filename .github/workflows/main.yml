@@ -24,7 +24,7 @@ jobs:
       run: echo "S3_BUCKET_NAME=cicd-joo-terraform" >> $GITHUB_ENV
 
     - name: Grant execute permissions for deploy script
-      run: chmod +x scripts/deploy.sh
+      run: chmod +x scripts/deploy.sh 
 
     - name: Zip project files
       run: |
