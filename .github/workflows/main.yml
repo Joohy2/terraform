@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  deploy: 
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -23,16 +23,19 @@ jobs:
     - name: Set environment variables
       run: echo "S3_BUCKET_NAME=cicd-joo-terraform" >> $GITHUB_ENV
 
+    - name: Grant execute permissions for deploy script
+      run: chmod +x .github/workflows/deploy.sh
+
     - name: Zip project files
       run: |
-        zip -r $GITHUB_SHA.zip ./terraform/*
+        zip -r $GITHUB_SHA.zip ./*
       shell: bash
 
     - name: Upload to S3
       env:
         S3_BUCKET_NAME: cicd-joo-terraform
       run: |
-        aws s3 cp ./$GITHUB_SHA.zip s3://$S3_BUCKET_NAME/$GITHUB_SHA.zip --region ap-southeast-1
+        aws s3 cp --region ap-southeast-1 ./$GITHUB_SHA.zip s3://$S3_BUCKET_NAME/$GITHUB_SHA.zip
 
     - name: Deploy to CodeDeploy
       env:
