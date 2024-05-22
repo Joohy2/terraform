@@ -17,6 +17,7 @@ permissions:
 hooks:
   ApplicationStart:
 # 배포 스크립트로 다음 스크립트를 활용한다.
-    - location: scripts/deploy2.sh
+    - location: /var/www/html/scripts/deploy2.sh
+   # - location: scripts/deploy2.sh
       timeout: 600
       runas: root
