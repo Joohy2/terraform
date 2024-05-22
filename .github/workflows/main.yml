@@ -33,7 +33,7 @@ jobs:
       run: aws s3 cp --region ap-southeast-1 ./$GITHUB_SHA.zip s3://$S3_BUCKET_NAME/$GITHUB_SHA.zip
 
     - name: Grant execute permissions for deploy script
-      run: chmod +x ./deploy.sh
+      run: chmod +x deploy.sh
 
     - name: Deploy to CodeDeploy
       env:
