@@ -11,10 +11,10 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4  # Node.js 20 사용 버전
+      uses: actions/checkout@v4
 
     - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v3  # Node.js 20 사용 버전
+      uses: aws-actions/configure-aws-credentials@v3
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -22,20 +22,23 @@ jobs:
 
     - name: Set environment variables
       run: echo "S3_BUCKET_NAME=cicd-joo-terraform" >> $GITHUB_ENV
-      
-    - name: Grant execute permissions for deploy script
-      run: chmod +x scripts/deploy.sh
-
 
     - name: Zip project files
-      run: |
-        zip -r $GITHUB_SHA.zip ./*
+      run: zip -r $GITHUB_SHA.zip ./*
       shell: bash
 
     - name: Upload to S3
       env:
-        S3_BUCKET_NAME: cicd-joo-terraform # 여기서 환경 변수 직접 설정
-      run: |
-        aws s3 cp --region ap-southeast-1 ./$GITHUB_SHA.zip s3://$S3_BUCKET_NAME/$GITHUB_SHA.zip
-            - name: Deploy to CodeDeploy
-       
+        S3_BUCKET_NAME: cicd-joo-terraform
+      run: aws s3 cp --region ap-southeast-1 ./$GITHUB_SHA.zip s3://$S3_BUCKET_NAME/$GITHUB_SHA.zip
+
+    - name: Grant execute permissions for deploy script
+      run: chmod +x scripts/deploy.sh
+
+    - name: Deploy to CodeDeploy
+      env:
+        S3_BUCKET_NAME: cicd-joo-terraform
+      run: aws deploy create-deployment \
+        --application-name joo-deploy-cicd \
+        --deployment-group-name joo-deploy-group \
+        --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=$GITHUB_SHA.zip
