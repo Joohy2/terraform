@@ -38,7 +38,8 @@ jobs:
     - name: Deploy to CodeDeploy
       env:
         S3_BUCKET_NAME: cicd-joo-terraform
-      run: aws deploy create-deployment \
-        --application-name joo-deploy-cicd \
-        --deployment-group-name joo-deploy-group \
-        --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=$GITHUB_SHA.zip
+        run: |
+         aws deploy create-deployment \
+          --application-name codedeploy \
+          --deployment-group-name deploygroup \
+          --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=$GITHUB_SHA.zip
