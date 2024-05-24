@@ -42,5 +42,5 @@ jobs:
       run: |
         aws deploy create-deployment \
           --application-name joo-deploy-cicd \
-          --deployment-group-name final \
+          --deployment-group-name joo-deploy-group \
           --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=$GITHUB_SHA.zip
