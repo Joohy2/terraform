@@ -47,6 +47,7 @@ jobs:
     - name: Deploy to CodeDeploy
       env:
         S3_BUCKET_NAME: cicd-joo-terraform
+        environment: production  # Environment 추가
       run: |
         aws deploy create-deployment \
           --application-name joo-deploy-cicd \
