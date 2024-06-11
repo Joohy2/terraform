@@ -1,4 +1,4 @@
-name: Deployment with Slack Approval
+name: Deployment with Slack Approval 
 
 on:
   push:
