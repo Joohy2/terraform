@@ -1,4 +1,4 @@
-name: Deploy to AWS with Slack Approval via Webhook
+name: Deploy to AWS with Slack Approval via Webhook 
 
 on:
   push:
