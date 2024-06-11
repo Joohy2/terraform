@@ -1,4 +1,4 @@
-name: Deploy to AWS with Slack Approval
+name: Deploy to AWS with Slack Approval via Webhook
 
 on:
   push:
@@ -37,17 +37,19 @@ jobs:
       run: |
         aws s3 cp --region ap-southeast-1 ./$GITHUB_SHA.zip s3://$S3_BUCKET_NAME/$GITHUB_SHA.zip
 
-    - name: Request approval from Slack
-      uses: some/slack-action@v1
-      with:
-        slack-token: ${{ secrets.SLACK_TOKEN }}
-        channel-id: 'C1234567890'
-        text: 'Approval needed for deployment. Please react with :thumbsup: or :thumbsdown:'
+    - name: Request approval from Slack via Webhook
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+        SLACK_CHANNEL: your-channel-id
+        SLACK_COLOR: '#FF0000'
+        SLACK_MESSAGE: 'Deployment approval needed for ${{ github.sha }}. Please review the deployment plan.'
+        SLACK_TITLE: 'Deployment Approval Required'
 
     - name: Deploy to CodeDeploy
       env:
         S3_BUCKET_NAME: cicd-joo-terraform
-        environment: production  # Environment 추가
+        environment: production  # Environment 설정 추가
       run: |
         aws deploy create-deployment \
           --application-name joo-deploy-cicd \
