@@ -38,6 +38,7 @@ jobs:
     name: Deploy(Production)
     needs: request-slack-approval
     runs-on: ubuntu-latest
+    environment: production
     steps:
       - uses: actions/checkout@v2
       - run: echo 'production deployment'
