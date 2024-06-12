@@ -1,5 +1,5 @@
 #!/bin/bash
-FILE_PATH="/var/www/html/login.php"
+FILE_PATH="/var/www/html/index.html"
 
 if [ -f $FILE_PATH ]; then
   echo "Deleting existing file: $FILE_PATH"
